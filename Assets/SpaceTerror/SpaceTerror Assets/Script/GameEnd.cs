@@ -17,30 +17,30 @@ public class GameEnd : MonoBehaviour {
     }
 
 	void Start () {
-        if (GameManager.isWin)
-        {
-            screen.GetComponent<GUITexture>().pixelInset = winInset;
-            screen.GetComponent<GUITexture>().texture = win;
-        }
-        else
-        {
-            screen.GetComponent<GUITexture>().pixelInset = loseInset;
-            screen.GetComponent<GUITexture>().texture = lose;
-        }
+//        if (GameManager.isWin)
+//        {
+//            screen.GetComponent<GUITexture>().pixelInset = winInset;
+//            screen.GetComponent<GUITexture>().texture = win;
+//        }
+//        else
+//        {
+//            screen.GetComponent<GUITexture>().pixelInset = loseInset;
+//            screen.GetComponent<GUITexture>().texture = lose;
+//        }
 	}
 	
 	
 	void Update () {
-        if (Input.touchCount > 0)   
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Ended)
-            {
-                // RESET FUNCTION SHOULD CALL
-                GameManager.PlayerScore= 0f;
-                GameManager.PlayerHealth = 100f;
-                Application.LoadLevel(1);
-            }
-        }
+//        if (Input.touchCount > 0)   
+//        {
+//            Touch touch = Input.GetTouch(0);
+//            if (touch.phase == TouchPhase.Ended)
+//            {
+//                // RESET FUNCTION SHOULD CALL
+//                GameManager.PlayerScore= 0f;
+//                GameManager.PlayerHealth = 100f;
+//                Application.LoadLevel(1);
+//            }
+//        }
 	}
 }

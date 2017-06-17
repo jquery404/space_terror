@@ -84,7 +84,7 @@ public class FooFighter : MonoBehaviour {
 
         if (tr.position.z < -5.5f)
         {
-            GameController.ResetPosition(tr);
+//            GameController.ResetPosition(tr);
         }
 
 	}

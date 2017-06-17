@@ -33,9 +33,9 @@ public class GameStatsButton : MonoBehaviour
         {
             // if user click on PlayAgain Button
             Transform HQ = GameObject.Find("EnemyBaseHQ").transform;
-            GameManager.DisableActiveChildren(HQ);
+//            GameManager.DisableActiveChildren(HQ);
             GameController GC = (GameController)GameObject.FindObjectOfType(typeof(GameController));
-            GC.RestartGamePlay();
+//            GC.RestartGamePlay();
             
         
         }

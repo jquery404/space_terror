@@ -27,7 +27,7 @@ public class PowerMovement : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player")
         {
-            col.gameObject.GetComponent<PlayerMovement>().PowerUp();
+//            col.gameObject.GetComponent<PlayerMovement>().PowerUp();
             Destroy(gameObject);
         }
     }

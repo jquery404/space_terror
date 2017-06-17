@@ -58,7 +58,7 @@ public class Banzai : MonoBehaviour {
 
         if (tForm.position.z < -5.5f)
         {
-            GameController.ResetPosition(tForm);
+//            GameController.ResetPosition(tForm);
             //Destroy(gameObject);
         }
 

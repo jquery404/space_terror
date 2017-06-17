@@ -69,7 +69,7 @@ public class DoggyTrail : MonoBehaviour {
 
         if (tForm.position.z < -5.5f)
         {
-            GameController.ResetPosition(tForm);
+//            GameController.ResetPosition(tForm);
         }
 
 	}

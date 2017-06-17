@@ -29,25 +29,25 @@ public class EnemyCollision : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Laser" && Health > 0)
-        {
-            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
-            Health -= 5;
-        }
-        else if (col.gameObject.tag == "Laser" && Health <= 0)
-        {
-            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
-            GameManager.PlayerScore += Points;                        
-            Vector3 viewportPos = Camera.main.WorldToViewportPoint(tr.position);
-
-            PoolManager.instance.ReuseObject(PointGUI, new Vector3(viewportPos.x, viewportPos.y, 0), Quaternion.identity);
-            PoolManager.instance.ReuseObject(ExplosionPrefab, tr.position, Quaternion.identity);
-
-            DropPower();
-            
-            gameObject.SetActive(false);
-            GameManager.TotalKill++;        // no of enemy killed
-        }        
+//        if (col.gameObject.tag == "Laser" && Health > 0)
+//        {
+//            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
+//            Health -= 5;
+//        }
+//        else if (col.gameObject.tag == "Laser" && Health <= 0)
+//        {
+//            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
+//            GameManager.PlayerScore += Points;                        
+//            Vector3 viewportPos = Camera.main.WorldToViewportPoint(tr.position);
+//
+//            PoolManager.instance.ReuseObject(PointGUI, new Vector3(viewportPos.x, viewportPos.y, 0), Quaternion.identity);
+//            PoolManager.instance.ReuseObject(ExplosionPrefab, tr.position, Quaternion.identity);
+//
+//            DropPower();
+//            
+//            gameObject.SetActive(false);
+//            GameManager.TotalKill++;        // no of enemy killed
+//        }        
 	}
 
     void DropPower()
