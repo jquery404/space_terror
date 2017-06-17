@@ -297,10 +297,10 @@ public class GameController : MonoBehaviour
         ScoreGUI.SetActive(false);
         HealthGUI.SetActive(false);
 
-        GameOverGUI.transform.FindChild("FinalScore").GetComponent<GUIText>().text = GameManager.PlayerScore.ToString();
-        GameOverGUI.transform.FindChild("EnemiesKilled").GetComponent<GUIText>().text = GameManager.TotalKill.ToString();
+        GameOverGUI.transform.Find("FinalScore").GetComponent<GUIText>().text = GameManager.PlayerScore.ToString();
+        GameOverGUI.transform.Find("EnemiesKilled").GetComponent<GUIText>().text = GameManager.TotalKill.ToString();
         int Accuracy = (int)Mathf.Floor((GameManager.TotalKill/GameManager.TotalEnemies)*100);       
-        GameOverGUI.transform.FindChild("Accuracy").GetComponent<GUIText>().text = Accuracy.ToString();
+        GameOverGUI.transform.Find("Accuracy").GetComponent<GUIText>().text = Accuracy.ToString();
        
     }
     
@@ -329,6 +329,6 @@ public class GameController : MonoBehaviour
 
         trPlayer.position = playerDefaultPos;
         Player.SetActive(true);
-        Player.transform.FindChild("Idle").gameObject.SetActive(false);
+        Player.transform.Find("Idle").gameObject.SetActive(false);
     }
 }

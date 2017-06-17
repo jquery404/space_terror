@@ -22,8 +22,8 @@ public class MiniCraft : MonoBehaviour {
     void Awake()
     {
         tr = transform;
-        Gunner1 = tr.FindChild("Gunner_1").transform;
-        Gunner2 = tr.FindChild("Gunner_2").transform;
+        Gunner1 = tr.Find("Gunner_1").transform;
+        Gunner2 = tr.Find("Gunner_2").transform;
         rollingDice = Mathf.Floor(Random.Range(0, 10));
         //GC = (GameController)GetComponent("GameController");
        

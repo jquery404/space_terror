@@ -41,10 +41,10 @@ public class PlayerMovement : MonoBehaviour {
     {
         tr = transform;
         //Shield = tr.FindChild("Shield").transform;
-        Ship= tr.FindChild("ShipLock").transform;
-        MainShip = Ship.FindChild("PlayerShip").transform;
-        leftGun = Ship.FindChild("GunnerLeft").transform;
-        rightGun = Ship.FindChild("GunnerRight").transform;
+        Ship= tr.Find("ShipLock").transform;
+        MainShip = Ship.Find("PlayerShip").transform;
+        leftGun = Ship.Find("GunnerLeft").transform;
+        rightGun = Ship.Find("GunnerRight").transform;
         GC = GCInstance.GetComponent("GameController") as GameController;           // gamecontroller cache        
         matColor = MainShip.GetComponent<Renderer>().material.color;                // player ship default mat color
 	}
