@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 	public Vector2 speed;
 	public Vector4 bound;
 	public Vector2 acceleration;
+    public Color collideColor;
 
 	private Transform tr;
 	private Transform playerShip;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
 	private bool reverseAngle;
 	private float nextFire = 0f;
 	private float smoothRotation = 180f;
+    private Material playerMat;
 	private Color matColor;
 	private PoolManager pm;
 
@@ -52,8 +54,9 @@ public class Player : MonoBehaviour
 		playerShip = tr.Find ("ShipLock").transform;
 		leftGun = playerShip.Find ("GunnerLeft").transform;
 		rightGun = playerShip.Find ("GunnerRight").transform;
-		matColor = playerShip.Find ("PlayerShip").GetComponent<Renderer> ().material.color;
-		pm = PoolManager.instance;
+        playerMat = playerShip.Find("PlayerShip").GetComponent<Renderer>().material;
+        matColor = playerMat.color;
+        pm = PoolManager.instance;
 	}
 
 	void Start (){
@@ -86,9 +89,14 @@ public class Player : MonoBehaviour
 		}
 
 		if (autoFire)
-			Fire (laserLevel);
+        {
+            Fire(laserLevel);
+            StartCoroutine("collideFlash");
+            autoFire = false;
+        }
 
-		playerShip.rotation = Quaternion.Euler (0, 0, smoothRotation);
+
+        playerShip.rotation = Quaternion.Euler (0, 0, smoothRotation);
 		tr.Translate (currentSpeed.x, 0, currentSpeed.y);
 		tr.position = new Vector3 (Mathf.Clamp (tr.position.x, bound.x, bound.y), 
 			tr.position.y, Mathf.Clamp (tr.position.z, bound.z, bound.w));
@@ -115,7 +123,13 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void blinking(){
-		
-	}
+	IEnumerator collideFlash(){
+        playerMat.color = collideColor;
+        yield return new WaitForSeconds(0.1f);
+        playerMat.color = matColor;
+        yield return new WaitForSeconds(0.1f);
+        playerMat.color = collideColor;
+        yield return new WaitForSeconds(0.1f);
+        playerMat.color = matColor;
+    }
 }
