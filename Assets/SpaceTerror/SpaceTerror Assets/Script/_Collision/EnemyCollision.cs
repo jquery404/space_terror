@@ -4,9 +4,9 @@ using System.Collections;
 public class EnemyCollision : MonoBehaviour {
 
     public float Points;
+	public float Health;
     public GameObject PointGUI;
     public GameObject ExplosionPrefab;
-    public float Health;
     public GameObject[] powerObj;
         
     private Transform tr;    

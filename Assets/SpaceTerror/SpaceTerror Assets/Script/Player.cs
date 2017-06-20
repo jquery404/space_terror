@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	static Player _instance;
+	private static Player instance = new Player ();
+	public static Player get(){ return instance; }
+
 
 	public GameObject fireProjectile;
 	public GameObject explosionParticle;
@@ -15,10 +17,12 @@ public class Player : MonoBehaviour
 	public bool isDead;
 	public float fireRate;
 	public int laserLevel;
+	public int totalEnemyKilled;
 	public Vector2 speed;
 	public Vector4 bound;
 	public Vector2 acceleration;
     public Color collideColor;
+
 
 	private Transform tr;
 	private Transform playerShip;
@@ -26,7 +30,6 @@ public class Player : MonoBehaviour
 	private Transform rightGun;
 	private Vector2 currentSpeed;
 	private Vector2 joyStick;
-	private int enemyKilled;
 	private int powerLevel;
 	private int score;
 	private int heath;
@@ -36,16 +39,6 @@ public class Player : MonoBehaviour
     private Material playerMat;
 	private Color matColor;
 	private PoolManager pm;
-
-
-	public static Player instance {
-		get{
-			if (_instance == null)
-				_instance = FindObjectOfType<Player>();
-
-			return _instance;
-		}       
-	}
 
 
 	void Awake(){
