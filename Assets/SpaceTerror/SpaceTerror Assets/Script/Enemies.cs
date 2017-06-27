@@ -18,27 +18,31 @@ public class Enemies : MonoBehaviour {
 	public Vector3[] spawnPoints;
 	public float spawnSpeed;
 	public enum SpawnType { RANDOM, ASSEMBLE, PARADE, PYRAMID };
-	public enum ShipType { ASTEROID, MINICRAFT, BANZAI, FOOFIGHTER, DOGGYTRAIL, MOTHERSHIP };
+	public List<int> availEnemyUnits; // available unit for current level
 
-	private Dictionary<int, TroopBudget> troopsBudget;
-	private int availEnemyUnit = 0; // available unit for current level
+
+	private int totalEnemyUnit;
+	private float levelBudget;
+	private float levelWeight;
+	private PoolManager pm;
 		
 
 	void Awake(){
 		// store budget for each troop
-		troopsBudget = new Dictionary<int, TroopBudget>(enemyUnits.Length);
+		pm = PoolManager.instance;
+
+		for (int i = 0; i < availEnemyUnits.Count; i++) {
+			pm.CreatePool (enemyUnits[availEnemyUnits[i]], 10);
+		}
+		List<int> troops = Checkout ();
+
 	}
 
 	void Start () {
-		float current_budget = LevelBudget (20, 1);
-		Debug.Log (current_budget);
-		//Checkout (current_budget);
-	}
-
-	void Update () {
 		
 
 	}
+
 
 
 	// T = threshold, I = increment
@@ -47,31 +51,40 @@ public class Enemies : MonoBehaviour {
 		return (T + GameManager.get().curLevel * I);
 	}
 
+	// T = threshold, I = increment
+	// LevelWeight = T + n * I
+	private float LevelWeight(float T, float I){
+		return (T + GameManager.get().curLevel * I);
+	}
+
 	private int getAvailableUnit(){
 		//return Mathf.Clamp(GameManager.get ().curLevel, enemyUnits.Length);
 		return 0;
 	}
 
-	private void Checkout(float currentBudget){
-		while (currentBudget > 0) {
-			float totalWeight = 0;
-			for (int i = 0; i < availEnemyUnit; i++) {
-				if(currentBudget >= troopsBudget[i].points){
-					totalWeight += troopsBudget [i].weights;
-				}
-			}
+	private List<int> Checkout(){
+		List<int> troops = new List<int> ();
+		levelBudget = LevelBudget (20, 1);
+		levelWeight = LevelWeight (15, 1);
+		while (levelBudget > 0) {
+			int index = Random.Range (0, availEnemyUnits.Count);
+			pm.ReuseObject (enemyUnits [availEnemyUnits [index]], 
+				Vector3.zero, Quaternion.identity);
+			
+
+			/*if (levelBudget >= enemyShip.cost &&
+				levelWeight >= enemyShip.weights) {
+				troops.Add (availEnemyUnits [index]);
+				levelWeight -= enemyShip.weights;
+				levelBudget -= enemyShip.cost;
+			} else {
+				availEnemyUnits.Remove (index);
+			}*/
+			--levelBudget;
 		}
-	}
 
-	public void getShipCost(ShipType shipType){
-		
+		return troops;
 	}
 
 
-	// weights =  amount of space occupied by the troop
-	// points = amount that cost to purchase / deploy that troop
-	public class TroopBudget{
-		public float weights{ get; set; }
-		public float points{ get; set; }
-	}
 }
