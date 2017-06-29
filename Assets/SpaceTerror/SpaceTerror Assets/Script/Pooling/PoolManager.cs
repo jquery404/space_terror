@@ -37,20 +37,16 @@ public class PoolManager : MonoBehaviour {
         }
     }
 
-	public GameObject ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
+    public void ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         int poolKey = prefab.GetInstanceID();
 
-        if(poolDict.ContainsKey(poolKey))
+        if (poolDict.ContainsKey(poolKey))
         {
             ObjectInstance objectToReuse = poolDict[poolKey].Dequeue();
             poolDict[poolKey].Enqueue(objectToReuse);
             objectToReuse.Reuse(position, rotation);
-
-			return objectToReuse.g as GameObject;
         }
-
-		return null;
     }
 
     public void DestroyObject(GameObject prefab)

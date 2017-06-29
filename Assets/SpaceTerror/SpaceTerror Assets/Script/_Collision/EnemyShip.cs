@@ -24,13 +24,7 @@ public class EnemyShip : TroopBudget, IEnemyShip {
 
     void Start()
     {
-        PoolManager.instance.CreatePool(PointGUI, 5);
-        PoolManager.instance.CreatePool(ExplosionPrefab, 5);
-
-        for (int i = 0; i < powerObj.Length; i++)
-        {
-            PoolManager.instance.CreatePool(powerObj[i], 2);
-        }
+        
     }
 
 
@@ -48,12 +42,7 @@ public class EnemyShip : TroopBudget, IEnemyShip {
 
 	public void DropPower()
     {
-        float roll = Random.Range(0f, 10f);
-
-        if (roll < 1)
-        {
-            PoolManager.instance.ReuseObject(powerObj[0], tr.position, Quaternion.identity);
-        }
+        
     }
 
 	void OnTriggerEnter(Collider col)

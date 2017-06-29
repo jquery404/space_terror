@@ -67,9 +67,10 @@ public class Enemies : MonoBehaviour {
 		levelBudget = LevelBudget (20, 1);
 		levelWeight = LevelWeight (15, 1);
 		while (levelBudget > 0) {
-			int index = Random.Range (0, availEnemyUnits.Count);
-			pm.ReuseObject (enemyUnits [availEnemyUnits [index]], 
-				Vector3.zero, Quaternion.identity);
+            pm.ReuseObject(enemyUnits[Random.Range(0, availEnemyUnits.Count)], 
+                Vector3.zero, 
+                Quaternion.identity);
+			
 			
 
 			/*if (levelBudget >= enemyShip.cost &&
