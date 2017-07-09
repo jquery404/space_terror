@@ -24,13 +24,7 @@ public class EnemyShip : TroopBudget, IEnemyShip {
 
     void Start()
     {
-        PoolManager.instance.CreatePool(PointGUI, 5);
-        PoolManager.instance.CreatePool(ExplosionPrefab, 5);
-
-        for (int i = 0; i < powerObj.Length; i++)
-        {
-            PoolManager.instance.CreatePool(powerObj[i], 2);
-        }
+        
     }
 
 

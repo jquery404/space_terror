@@ -15,7 +15,7 @@ using UnityEngine;
 public class Enemies : MonoBehaviour {
 
 	public GameObject[] enemyUnits;
-	public Vector3[] spawnPoints;
+	public Transform[] spawnPoints;
 	public float spawnSpeed;
 	public enum SpawnType { RANDOM, ASSEMBLE, PARADE, PYRAMID };
 	public List<int> availEnemyUnits; // available unit for current level
@@ -68,9 +68,11 @@ public class Enemies : MonoBehaviour {
 		levelWeight = LevelWeight (15, 1);
 		while (levelBudget > 0) {
 			int index = Random.Range (0, availEnemyUnits.Count);
-			pm.ReuseObject (enemyUnits [availEnemyUnits [index]], 
-				Vector3.zero, Quaternion.identity);
-			
+			GameObject go = pm.ReuseObject (enemyUnits [availEnemyUnits [index]], 
+				Vector3.zero, 
+				Quaternion.identity);
+			EnemyShip enemyShip = go.GetComponent<EnemyShip> ();
+			Debug.Log ("=>"+enemyShip.weights);
 
 			/*if (levelBudget >= enemyShip.cost &&
 				levelWeight >= enemyShip.weights) {

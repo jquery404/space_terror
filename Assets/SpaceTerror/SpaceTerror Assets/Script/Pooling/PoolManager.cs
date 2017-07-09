@@ -47,7 +47,7 @@ public class PoolManager : MonoBehaviour {
             poolDict[poolKey].Enqueue(objectToReuse);
             objectToReuse.Reuse(position, rotation);
 
-			return objectToReuse.g as GameObject;
+			return objectToReuse.getObject();
         }
 
 		return null;
@@ -87,6 +87,10 @@ public class PoolManager : MonoBehaviour {
             }
 
         }
+
+		public GameObject getObject(){
+			return this.gameObject;
+		}
 
         public void Reuse(Vector3 position, Quaternion rotation)
         {
