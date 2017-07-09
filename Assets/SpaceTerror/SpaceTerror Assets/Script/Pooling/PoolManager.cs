@@ -37,7 +37,7 @@ public class PoolManager : MonoBehaviour {
         }
     }
 
-    public void ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
+    public GameObject ReuseObject(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         int poolKey = prefab.GetInstanceID();
 
@@ -49,6 +49,7 @@ public class PoolManager : MonoBehaviour {
 
 			return objectToReuse.getObject();
         }
+        return null;
     }
 
     public void DestroyObject(GameObject prefab)
