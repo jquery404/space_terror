@@ -73,6 +73,9 @@ public class Enemies : MonoBehaviour {
 				Quaternion.identity);
 			EnemyShip enemyShip = go.GetComponent<EnemyShip> ();
 			Debug.Log ("=>"+enemyShip.weights);
+            pm.ReuseObject(enemyUnits[Random.Range(0, availEnemyUnits.Count)], 
+                Vector3.zero, 
+                Quaternion.identity);
 
 			/*if (levelBudget >= enemyShip.cost &&
 				levelWeight >= enemyShip.weights) {

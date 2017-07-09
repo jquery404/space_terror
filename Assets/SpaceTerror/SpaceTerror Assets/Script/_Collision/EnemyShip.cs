@@ -42,12 +42,7 @@ public class EnemyShip : TroopBudget, IEnemyShip {
 
 	public void DropPower()
     {
-        float roll = Random.Range(0f, 10f);
-
-        if (roll < 1)
-        {
-            PoolManager.instance.ReuseObject(powerObj[0], tr.position, Quaternion.identity);
-        }
+        
     }
 
 	void OnTriggerEnter(Collider col)
