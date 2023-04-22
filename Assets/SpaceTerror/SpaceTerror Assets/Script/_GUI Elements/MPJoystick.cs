@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 /**
  * File: MPJoystick.cs
@@ -17,7 +18,7 @@ using System.Collections;
 // without moving the graphic
 */
 
-[RequireComponent(typeof(GUITexture))]
+[RequireComponent(typeof(Image))]
 public class MPJoystick : MonoBehaviour
 {
     class Boundary
@@ -43,7 +44,7 @@ public class MPJoystick : MonoBehaviour
     //private float fingerDownTime;
     //private float firstDeltaTime = 0.5f;
 
-    private GUITexture gui;
+    private Image gui;
     private Rect defaultRect;								// Default position / extents of the joystick graphic
     private Boundary guiBoundary = new Boundary();			// Boundary for joystick graphic
     private Vector2 guiTouchOffset;						// Offset to apply to touch input
@@ -51,19 +52,19 @@ public class MPJoystick : MonoBehaviour
 
     void Start()
     {
-        gui = (GUITexture)GetComponent(typeof(GUITexture));
+        gui = (Image)GetComponent(typeof(Image));
 
-        defaultRect = gui.pixelInset;
-        defaultRect.x += transform.position.x * Screen.width;// + gui.pixelInset.x; // -  Screen.width * 0.5;
-        defaultRect.y += transform.position.y * Screen.height;// - Screen.height * 0.5;
+        // defaultRect = gui.pixelInset;
+        // defaultRect.x += transform.position.x * Screen.width;// + gui.pixelInset.x; // -  Screen.width * 0.5;
+        // defaultRect.y += transform.position.y * Screen.height;// - Screen.height * 0.5;
 
         transform.position = Vector3.zero;
 
         if (touchPad)
         {
             // If a texture has been assigned, then use the rect ferom the gui as our touchZone
-            if (gui.texture)
-                touchZone = defaultRect;
+            // if (gui.texture)
+            //     touchZone = defaultRect;
         }
         else
         {
@@ -95,7 +96,7 @@ public class MPJoystick : MonoBehaviour
 
     private void ResetJoystick()
     {
-        gui.pixelInset = defaultRect;
+        // gui.pixelInset = defaultRect;
         lastFingerId = -1;
         position = Vector2.zero;
         fingerDownPos = Vector2.zero;
@@ -144,10 +145,10 @@ public class MPJoystick : MonoBehaviour
                     if (touchZone.Contains(touch.position))
                         shouldLatchFinger = true;
                 }
-                else if (gui.HitTest(touch.position))
-                {
-                    shouldLatchFinger = true;                    
-                }
+                // else if (gui.HitTest(touch.position))
+                // {
+                //     shouldLatchFinger = true;                    
+                // }
 
                 // Latch the finger if this is a new touch
                 if (shouldLatchFinger && (lastFingerId == -1 || lastFingerId != touch.fingerId))
@@ -198,10 +199,10 @@ public class MPJoystick : MonoBehaviour
                     else
                     {
                         // Change the location of the joystick graphic to match where the touch is
-                        Rect r = gui.pixelInset;
-                        r.x = Mathf.Clamp(guiTouchPos.x, guiBoundary.min.x, guiBoundary.max.x);
-                        r.y = Mathf.Clamp(guiTouchPos.y, guiBoundary.min.y, guiBoundary.max.y);
-                        gui.pixelInset = r;
+                        // Rect r = gui.pixelInset;
+                        // r.x = Mathf.Clamp(guiTouchPos.x, guiBoundary.min.x, guiBoundary.max.x);
+                        // r.y = Mathf.Clamp(guiTouchPos.y, guiBoundary.min.y, guiBoundary.max.y);
+                        // gui.pixelInset = r;
                     }
 
                     if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
@@ -213,8 +214,8 @@ public class MPJoystick : MonoBehaviour
         if (!touchPad)
         {
             // Get a value between -1 and 1 based on the joystick graphic location
-            position.x = (gui.pixelInset.x + guiTouchOffset.x - guiCenter.x) / guiTouchOffset.x;
-            position.y = (gui.pixelInset.y + guiTouchOffset.y - guiCenter.y) / guiTouchOffset.y;
+            // position.x = (gui.pixelInset.x + guiTouchOffset.x - guiCenter.x) / guiTouchOffset.x;
+            // position.y = (gui.pixelInset.y + guiTouchOffset.y - guiCenter.y) / guiTouchOffset.y;
         }
 
         // Adjust for dead zone

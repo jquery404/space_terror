@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameStatsButton : MonoBehaviour
 {
@@ -20,12 +21,12 @@ public class GameStatsButton : MonoBehaviour
 
     void OnMouseDown()
     {
-        tr.GetComponent<GUIText>().material = FontMats[1];
+        tr.GetComponent<Text>().material = FontMats[1];
     }
 
     void OnMouseUp()
     {
-        tr.GetComponent<GUIText>().material = FontMats[0];
+        tr.GetComponent<Text>().material = FontMats[0];
         
         tr.parent.gameObject.SetActiveRecursively(false);
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameEnd : MonoBehaviour {
 
@@ -19,13 +20,13 @@ public class GameEnd : MonoBehaviour {
 	void Start () {
         if (GameManager.isWin)
         {
-            screen.GetComponent<GUITexture>().pixelInset = winInset;
-            screen.GetComponent<GUITexture>().texture = win;
+            // screen.GetComponent<Image>().pixelInset = winInset;
+            // screen.GetComponent<Image>().texture = win;
         }
         else
         {
-            screen.GetComponent<GUITexture>().pixelInset = loseInset;
-            screen.GetComponent<GUITexture>().texture = lose;
+            // screen.GetComponent<Image>().pixelInset = loseInset;
+            // screen.GetComponent<Image>().texture = lose;
         }
 	}
 	

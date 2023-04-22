@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
         {
             if (tr.GetChild(i).gameObject.activeSelf)
             {
-                tr.GetChild(i).gameObject.SetActive(false);
+                tr.GetChild(i).gameObject.SetActiveRecursively(false);
             }
         }
      

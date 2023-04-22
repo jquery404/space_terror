@@ -21,7 +21,7 @@ public class MotherShip : MonoBehaviour {
     {
         tForm = transform;
         target = GameObject.FindWithTag("Player").transform;
-        child = tForm.FindChild("Gunner").transform;
+        child = tForm.Find("Gunner").transform;
     }
 
 	void Update () {

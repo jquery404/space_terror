@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class LaserMovement : PoolObject{
+public class LaserMovement : MonoBehaviour {
 
     public float fireSpeed;
+
     private Transform tr;
 
     void Start()
@@ -11,24 +12,15 @@ public class LaserMovement : PoolObject{
         tr = transform;
     }
 	
-	void Update ()
-    {
+	
+	
+	void Update () {
         tr.Translate(Vector3.forward * fireSpeed * Time.deltaTime);
 
-        if (tr.position.z > 6f)
-        {
-            this.DoDestroy(gameObject);
+        if (tr.position.z > 6f) {
+            Destroy(gameObject);
         }
 	}
 
-    public void DestroyNow()
-    {
-        this.DoDestroy(gameObject);
-    }
-
-    public override void OnObjectReuse()
-    {
-        base.OnObjectReuse();
-    }
-
+    
 }

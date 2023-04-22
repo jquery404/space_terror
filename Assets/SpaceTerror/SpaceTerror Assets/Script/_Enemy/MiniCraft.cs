@@ -22,8 +22,8 @@ public class MiniCraft : MonoBehaviour {
     void Awake()
     {
         tr = transform;
-        Gunner1 = tr.FindChild("Gunner_1").transform;
-        Gunner2 = tr.FindChild("Gunner_2").transform;
+        Gunner1 = tr.Find("Gunner_1").transform;
+        Gunner2 = tr.Find("Gunner_2").transform;
         rollingDice = Mathf.Floor(Random.Range(0, 10));
         //GC = (GameController)GetComponent("GameController");
        
@@ -31,8 +31,7 @@ public class MiniCraft : MonoBehaviour {
     
     void Start () {        
         target = GameObject.FindWithTag("Player").transform;
-        PoolManager.instance.CreatePool(Projectile, 20);               // laser
-    }
+	}
 	
 	
 	void Update () {
@@ -94,9 +93,8 @@ public class MiniCraft : MonoBehaviour {
     {
         if (Time.time > nextFire)
         {
-            PoolManager.instance.ReuseObject(Projectile, Gunner1.position, Gunner1.rotation);
-            PoolManager.instance.ReuseObject(Projectile, Gunner2.position, Gunner2.rotation);
-
+            Instantiate(Projectile, Gunner1.position, Gunner1.rotation);
+            Instantiate(Projectile, Gunner2.position, Gunner2.rotation);
             nextFire = Time.time + fireRate;
         }
     }

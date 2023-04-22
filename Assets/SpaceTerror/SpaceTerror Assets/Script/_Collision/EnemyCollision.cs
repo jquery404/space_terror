@@ -15,37 +15,23 @@ public class EnemyCollision : MonoBehaviour {
         tr = transform;
     }
 
-
-    void Start()
-    {
-        PoolManager.instance.CreatePool(PointGUI, 5);
-        PoolManager.instance.CreatePool(ExplosionPrefab, 5);
-
-        for (int i = 0; i < powerObj.Length; i++)
-        {
-            PoolManager.instance.CreatePool(powerObj[i], 2);
-        }
-    }
-
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Laser" && Health > 0)
         {
-            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
+            Destroy(col.gameObject);
             Health -= 5;
         }
         else if (col.gameObject.tag == "Laser" && Health <= 0)
-        {
-            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
+        {            
+            Destroy(col.gameObject);            
             GameManager.PlayerScore += Points;                        
             Vector3 viewportPos = Camera.main.WorldToViewportPoint(tr.position);
-
-            PoolManager.instance.ReuseObject(PointGUI, new Vector3(viewportPos.x, viewportPos.y, 0), Quaternion.identity);
-            PoolManager.instance.ReuseObject(ExplosionPrefab, tr.position, Quaternion.identity);
-
+            Instantiate(PointGUI, new Vector3(viewportPos.x, viewportPos.y, 0), Quaternion.identity);
+            Instantiate(ExplosionPrefab, tr.position, Quaternion.identity);
             DropPower();
-            
-            gameObject.SetActive(false);
+            //Destroy(gameObject);
+            gameObject.SetActiveRecursively(false);
             GameManager.TotalKill++;        // no of enemy killed
         }        
 	}
@@ -56,7 +42,7 @@ public class EnemyCollision : MonoBehaviour {
 
         if (roll < 1)
         {
-            PoolManager.instance.ReuseObject(powerObj[0], tr.position, Quaternion.identity);
+            Instantiate(powerObj[0], tr.position, Quaternion.identity);
         }
     }
 }

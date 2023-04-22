@@ -41,19 +41,17 @@ public class PlayerMovement : MonoBehaviour {
     {
         tr = transform;
         //Shield = tr.FindChild("Shield").transform;
-        Ship= tr.FindChild("ShipLock").transform;
-        MainShip = Ship.FindChild("PlayerShip").transform;
-        leftGun = Ship.FindChild("GunnerLeft").transform;
-        rightGun = Ship.FindChild("GunnerRight").transform;
+        Ship= tr.Find("ShipLock").transform;
+        MainShip = Ship.Find("PlayerShip").transform;
+        leftGun = Ship.Find("GunnerLeft").transform;
+        rightGun = Ship.Find("GunnerRight").transform;
         GC = GCInstance.GetComponent("GameController") as GameController;           // gamecontroller cache        
-        matColor = MainShip.GetComponent<Renderer>().material.color;                // player ship default mat color
+        matColor = MainShip.GetComponent<Renderer>().material.color;                                // player ship default mat color
 	}
 
     void Start()
     {
-        //Shield.GetComponent<Renderer>().enabled = false; 
-        
-        PoolManager.instance.CreatePool(laserProjectile, 20);               // laser
+        Shield.GetComponent<Renderer>().enabled = false;        
     }
 
 	void Update () 
@@ -127,15 +125,16 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (State == 1)
             {
-                //Vector3 position = new Vector3(tForm.position.x, tForm.position.y, tForm.position.z + tForm.localScale.z / 2);
-                PoolManager.instance.ReuseObject(laserProjectile, leftGun.position, Quaternion.identity);
-                PoolManager.instance.ReuseObject(laserProjectile, rightGun.position, Quaternion.identity);
+                //Vector3 position = new Vector3(tForm.position.x, tForm.position.y, tForm.position.z + tForm.localScale.z / 2);                
+                Instantiate(laserProjectile, leftGun.position, Quaternion.identity);
+                Instantiate(laserProjectile, rightGun.position, Quaternion.identity);
+                
             }
             else if (State == 2)
             {
                 Vector3 position = new Vector3(tr.position.x, tr.position.y, tr.position.z + tr.localScale.z / 2);
-                PoolManager.instance.ReuseObject(laserProjectile, position, Quaternion.Euler(new Vector3(0, -20, 0)));
-                PoolManager.instance.ReuseObject(laserProjectile, position, Quaternion.Euler(new Vector3(0, 20, 0)));
+                Instantiate(laserProjectile, position, Quaternion.Euler(new Vector3(0, -20, 0)));                
+                Instantiate(laserProjectile, position, Quaternion.Euler(new Vector3(0, 20, 0)));
             }
             else if (State == 3)
             {
@@ -190,7 +189,7 @@ public class PlayerMovement : MonoBehaviour {
                 GameManager.isDead = true;                
                 GC.isGameOver();
             }
-            col.gameObject.GetComponent<LaserMovement>().DestroyNow();
+            Destroy(col.gameObject);
             
         }
         

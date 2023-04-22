@@ -31,7 +31,7 @@ public class EnemyMovement : MonoBehaviour {
         initPos = tForm.position;
         if (canFire)
         {
-            enemyGun = tForm.FindChild("Cube").transform;
+            enemyGun = tForm.Find("Cube").transform;
         }
 	}	
 	

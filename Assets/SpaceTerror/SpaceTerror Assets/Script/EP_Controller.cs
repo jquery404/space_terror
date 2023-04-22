@@ -18,7 +18,7 @@ public class EP_Controller : MonoBehaviour {
 
         if (tForm.position.z < -5.5f)
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
 	}
 }

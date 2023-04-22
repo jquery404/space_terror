@@ -1,26 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class Asteroid : PoolObject {
+public class Asteroid : MonoBehaviour {
 
 
-    public float minSpeed;
-    public float maxSpeed;
-    public float minRotation;
-    public float maxRotation;
+    public float moveSpeed;
+    public float rotateSpeed;
     public float minSize;
     public float maxSize;
 
+    public static float weights;
+    public static float points;
+
     
     private Transform tr;
-    private Vector3 curPos;
-    private float rollingDice;
-    private float size;
-    private float speed;
-    private float rotation;
+    private float rollingDice;    
     
-
-
+    
     void Awake()
     {
         tr = transform;
@@ -30,35 +26,23 @@ public class Asteroid : PoolObject {
 
     void Start()
     {
-        Refresh();
-        tr.localScale = new Vector3(size, size, size);
+        float curScaleX = Random.Range(minSize, maxSize);
+        float curScaleY = Random.Range(minSize, maxSize);
+        float curScaleZ = Random.Range(minSize, maxSize);
+
+        tr.localScale = new Vector3(curScaleX, curScaleY, curScaleZ);
     }
 
 
-    void Refresh()
+    void Update()
     {
-        size = Random.Range(minSize, maxSize);
-        speed = Random.Range(minSpeed, maxSpeed);
-        rotation = Random.Range(minRotation, maxRotation);
-    }
-   
-    void FixedUpdate()
-    {
-        tr.Translate(Vector3.back * speed * Time.deltaTime);
-        tr.Rotate(Vector3.forward * rotation * Time.deltaTime);
-        if (curPos.z - tr.position.z > 20f)
+        tr.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        tr.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+
+        if (tr.position.z < -5.5f)
         {
-            Debug.Log("reset");
-            //this.DoDestroy(gameObject);
-            this.OnObjectReuse();
+            GameController.ResetPosition(tr);
+            //Destroy(gameObject);
         }
-        
-    }
-
-    public override void OnObjectReuse()
-    {
-        base.OnObjectReuse();
-
-        Refresh();        
     }
 }

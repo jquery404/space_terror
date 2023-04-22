@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour {
 
@@ -14,7 +15,7 @@ public class HUD : MonoBehaviour {
     public HUDType CurrentType = HUDType.Score;
     public HUDCats CurrentCats = HUDCats.Text;
 
-    private GUITexture PlayerHealthBar;
+    private Image PlayerHealthBar;
     private float HealthBarWidth;
     private float HealthBarHeight;
     private float HealthBarX;
@@ -25,11 +26,11 @@ public class HUD : MonoBehaviour {
     {
         if (CurrentType == HUDType.Health && CurrentCats == HUDCats.Texture)
         {
-            PlayerHealthBar = gameObject.GetComponent<GUITexture>();
-            HealthBarWidth = PlayerHealthBar.pixelInset.width;
-            HealthBarHeight = PlayerHealthBar.pixelInset.height;
-            HealthBarX = PlayerHealthBar.pixelInset.x;
-            HealthBarY = PlayerHealthBar.pixelInset.y;
+            PlayerHealthBar = gameObject.GetComponent<Image>();
+            // HealthBarWidth = PlayerHealthBar.pixelInset.width;
+            // HealthBarHeight = PlayerHealthBar.pixelInset.height;
+            // HealthBarX = PlayerHealthBar.pixelInset.x;
+            // HealthBarY = PlayerHealthBar.pixelInset.y;
         }
 
         InvokeRepeating("UpdateHUD", 1f, .5f);        
@@ -41,7 +42,7 @@ public class HUD : MonoBehaviour {
         {
             if (CurrentCats == HUDCats.Text)
             {
-                GetComponent<GUIText>().text = GameManager.PlayerScore.ToString();
+                GetComponent<Text>().text = GameManager.PlayerScore.ToString();
             }
             else if (CurrentCats == HUDCats.Texture)
             { 
@@ -52,25 +53,25 @@ public class HUD : MonoBehaviour {
         {
             if (CurrentCats == HUDCats.Text)
             {
-                GetComponent<GUIText>().text = GameManager.PlayerHealth.ToString();
+                GetComponent<Text>().text = GameManager.PlayerHealth.ToString();
             }
             else if (CurrentCats == HUDCats.Texture)
             {
                 // % value of healthbar texture
-                if (GameManager.PlayerHealth >= 0)
-                {
-                    gBarWidth = HealthBarWidth * (GameManager.PlayerHealth / 100);
-                    PlayerHealthBar.pixelInset = new Rect(HealthBarX, HealthBarY, gBarWidth, HealthBarHeight);
-                }
-                else if (GameManager.PlayerHealth < 0 && PlayerHealthBar.pixelInset.width != 0)
-                {                    
-                    PlayerHealthBar.pixelInset = new Rect(HealthBarX, HealthBarY, 0, HealthBarHeight);
-                }
+                // if (GameManager.PlayerHealth >= 0)
+                // {
+                //     gBarWidth = HealthBarWidth * (GameManager.PlayerHealth / 100);
+                //     PlayerHealthBar.pixelInset = new Rect(HealthBarX, HealthBarY, gBarWidth, HealthBarHeight);
+                // }
+                // else if (GameManager.PlayerHealth < 0 && PlayerHealthBar.pixelInset.width != 0)
+                // {                    
+                //     PlayerHealthBar.pixelInset = new Rect(HealthBarX, HealthBarY, 0, HealthBarHeight);
+                // }
             }            
         }
         else if (CurrentType == HUDType.Level)
         {
-            GetComponent<GUIText>().text = "Level " + GameManager.CurrentLevel.ToString();
+            GetComponent<Text>().text = "Level " + GameManager.CurrentLevel.ToString();
         }
         
     }

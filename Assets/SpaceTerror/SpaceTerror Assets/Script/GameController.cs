@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class UnitBudget
 {
@@ -33,7 +34,7 @@ public class GameController : MonoBehaviour
     public GameObject FooFighter;
     public GameObject MotherShip;
 
-    public Transform[] SpawnPoints;
+    public float[] SpawnPoints;
     public GameObject GameOverGUI;
     public Vector3 playerDefaultPos;
 
@@ -49,10 +50,13 @@ public class GameController : MonoBehaviour
     private GameObject HealthGUI;
     private GameObject Player;
     private Transform trPlayer;
-  
-    private List<int> HitList = new List<int> { 0 };
-    private IEnumerator enemyWave;
-
+    
+    
+    
+    //private Dictionary<EnemyTypes, GameObject> Enemies = new Dictionary<EnemyTypes, GameObject>(3);    
+    //private Dictionary<EnemyTypes, UnitBudget> UnitBudgets = new Dictionary<EnemyTypes, UnitBudget>(3);
+    
+    private List<int> HitList = new List<int>();
     private UnitBudget[] Units = new UnitBudget[6];
     private Dictionary<int, GameObject> Enemies = new Dictionary<int, GameObject>(6);
     private Dictionary<int, UnitBudget> UnitBudgets = new Dictionary<int, UnitBudget>(6);    
@@ -70,42 +74,85 @@ public class GameController : MonoBehaviour
     
 
     void Awake()
-    {        
+    {
+        Units[0] = new UnitBudget();
+        Units[0].weights = 0.5f;
+        Units[0].points = 1f;
+
+        Units[1] = new UnitBudget();
+        Units[1].weights = 0.3f;
+        Units[1].points = 3f;
+
+        Units[2] = new UnitBudget();
+        Units[2].weights = 0.2f;
+        Units[2].points = 5f;
+
+        Units[3] = new UnitBudget();
+        Units[3].weights = 0.15f;
+        Units[3].points = 8f;
+
+        Units[4] = new UnitBudget();
+        Units[4].weights = 0.1f;
+        Units[4].points = 9f;
+
+        Units[5] = new UnitBudget();
+        Units[5].weights = 0.05f;
+        Units[5].points = 10f;
+
+
+        UnitBudgets.Add(0, Units[0]);
+        UnitBudgets.Add(1, Units[1]);
+        UnitBudgets.Add(2, Units[2]);
+        UnitBudgets.Add(3, Units[3]);
+        UnitBudgets.Add(4, Units[4]);
+        UnitBudgets.Add(5, Units[5]);
+
         SpawnEnemies = false;
+
         // Create an Empty Gameobject to hold all enemies reference
         GameObject EnemyHQobj= new GameObject("EnemyBaseHQ");
         EnemyBaseHQ = EnemyHQobj.transform;
+
+
+        //Debug.Log(UnitBudgets[EnemyTypes.MiniCraft].weights);
+        //Debug.Log(UnitBudgets[0].weights);      
+
     }
 
 
     void Start()
     {
         GameStartTimer = Time.time;
-        AddEnemies();
-        enemyWave = CreateEnemiesWave();
 
-        StartCoroutine(enemyWave);
+        //Enemies.Add(EnemyTypes.Asteroid, AsteroidEnemy);
+        //Enemies.Add(EnemyTypes.MiniCraft, MiniCraftEnemy);
+        //Enemies.Add(EnemyTypes.Banzai, BanzaiEnemy);
 
-        PoolManager.instance.CreatePool(Enemies[0], 20);                    // Asteroid
-        //PoolManager.instance.CreatePool(Enemies[1], 20);                  // MiniCraft
+        Enemies.Add(0, Asteroid);
+        Enemies.Add(1, MiniCraft);
+        Enemies.Add(2, Banzai);
+        Enemies.Add(3, FooFighter);
+        Enemies.Add(4, DoggyTrail);
+        Enemies.Add(5, MotherShip);
+
+        StartCoroutine(CreateEnemiesWave());
+        //InvokeRepeating("", 1.0f, 5.0f);
     }
 
 
-    void AddEnemies()
+    void Update()
     {
-        Enemies.Add(0, Asteroid);
-        //Enemies.Add(1, MiniCraft);
-       // Enemies.Add(2, Banzai);
-        //Enemies.Add(3, FooFighter);
-        //Enemies.Add(4, DoggyTrail);
-        //Enemies.Add(5, MotherShip);
+       
     }
 
     void SpawnManager(float threshold, float inc)
     {
-        float CurrentBudget = LevelBudget(threshold, inc);        
+        float CurrentBudget = LevelBudget(threshold, inc);
+        Debug.Log("Budget : " + CurrentBudget);
+        
         // purchased some units
         Checkout(CurrentBudget);
+
     }
 
     // T = threshold , I = increment
@@ -142,6 +189,8 @@ public class GameController : MonoBehaviour
             }
 
             HitList.Add(CloseNumber);
+            
+            //Debug.Log(" - " + UnitBudgets[CloseNumber].points);
         }
 
     }
@@ -190,20 +239,95 @@ public class GameController : MonoBehaviour
             if (SpawnEnemies && !GameManager.isDead)
             {
                 GameManager.CurrentLevel++;
-
-                if (CurrentSpawnType == SpawnType.Random)
+                if (GameManager.CurrentLevel == 2)
                 {
-                    for (int i = 0; i < HitList.Count; i++)
-                    {
-                        PoolManager.instance.ReuseObject(Enemies[HitList[i]],
-                            SpawnPoints[Random.Range(0, SpawnPoints.Length)].position,
-                            Quaternion.identity);
-                        GameManager.TotalEnemies++;
-                    }
+                    HiddenUnit--;
+                }
+                else if (GameManager.CurrentLevel == 3)
+                {
+                    HiddenUnit--;
+                }
+                else if (GameManager.CurrentLevel == 4)
+                {
+                    HiddenUnit--;
+                }
+                else if (GameManager.CurrentLevel == 5)
+                {
+                    HiddenUnit--;
                 }
 
 
+                SpawnManager(3, 5);
+                int Total = HitList.Count;                
 
+                if (CurrentSpawnType == SpawnType.Random)
+                {
+                    for (int i = 0; i < Total; i++)
+                    {
+                        Vector3 Position = new Vector3(transform.position.x + SpawnPoints[Random.Range(0, SpawnPoints.Length)], transform.position.y, 6.5f);
+                        //Instantiate(Enemies[HitList[i]], Position, Quaternion.identity);
+                        //Instantiate(Enemies[HitList[i]], Position, Quaternion.identity);
+                        GameObject newEnemy = Instantiate(Enemies[HitList[i]], Position, Quaternion.identity) as GameObject;
+                        newEnemy.transform.parent = EnemyBaseHQ;
+                        GameManager.TotalEnemies++;
+                    }
+                }
+                else if (CurrentSpawnType == SpawnType.Assemble)
+                {
+                    for (int i = 0; i < Total; i++)
+                    {
+                        Vector3 Position = new Vector3(transform.position.x + SpawnPoints[2] + 2 * i, transform.position.y, 6.5f);
+                        Instantiate(Enemies[HitList[i]], Position, Quaternion.identity);
+                    }
+
+                }
+                else if (CurrentSpawnType == SpawnType.Parade)
+                {
+
+                    for (int i = 0; i < Total; i++)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            Vector3 Position = new Vector3(transform.position.x + SpawnPoints[2], transform.position.y, 6.5f);
+                            Instantiate(Enemies[HitList[i]], Position, Quaternion.identity);
+                        }
+                        else
+                        {
+                            Vector3 Position = new Vector3(transform.position.x + SpawnPoints[2] + 1, transform.position.y, 6.5f);
+                            Instantiate(Enemies[HitList[i]], Position, Quaternion.identity);
+                            yield return new WaitForSeconds(1f);
+                        }
+                    }
+
+                }
+                else if (CurrentSpawnType == SpawnType.Pyramid)
+                {
+                    int j = Total;
+
+                    for (int i = 1; i <= Total; i++)
+                    {
+                        currentOffset = SpawnPoints[0];
+
+                        for (int k = 1; k <= j; k++)
+                        {
+                            currentOffset += 1f;
+                        }
+
+                        for (int x = 1; x <= i; x++)
+                        {
+                            currentOffset += 1f;
+                            Vector3 Position = new Vector3(currentOffset, transform.position.y, 6.5f);
+                            Instantiate(Enemies[HitList[i]], Position, Quaternion.identity);
+                            currentOffset += 1f;
+                        }
+                        j--;
+                        yield return new WaitForSeconds(1f);
+                    }
+                }
+                Debug.Log(GameManager.TotalEnemies);
+                SpawnEnemies = false;
+                // clear hitlist 
+                HitList.Clear();
             }           
             #endregion
 
@@ -212,7 +336,6 @@ public class GameController : MonoBehaviour
             
 
             yield return new WaitForSeconds(5.0f);
-            StopCoroutine(enemyWave);
         }
 
 
@@ -246,32 +369,26 @@ public class GameController : MonoBehaviour
         form.position = new Vector3(x, y, z);        
     }
 
-
-    public Transform[] getSpawnPoints()
-    {
-        return SpawnPoints;
-    }
-
     // number of active enemies. if no enemies active then send new enemy spawn request
     void EnemyDead()
     {
-        int activeEnemy = 0;
+        int enemyCount = 0;
         int totalEnemy = EnemyBaseHQ.childCount;
         for (int i = 0; i < totalEnemy; i++)
         {
             if (EnemyBaseHQ.GetChild(i).gameObject.activeSelf)
             {
-                activeEnemy++;            
+                enemyCount++;            
             }
         }
         
         // if there is no enemy then its time to spawn enemy
-        if (activeEnemy == 0)
+        if (enemyCount == 0)
         {
             SpawnEnemies = true;
             Debug.Log(" -spawn- ");
         }
-        Debug.Log("ActiveEnemy: "+ activeEnemy + " - TotalEnemy "+totalEnemy);
+        Debug.Log(enemyCount+" - "+totalEnemy);
 
     }
 
@@ -294,13 +411,13 @@ public class GameController : MonoBehaviour
             HealthGUI = GameObject.Find("Player Healthbar");
         } 
         
-        ScoreGUI.SetActive(false);
-        HealthGUI.SetActive(false);
+        ScoreGUI.SetActiveRecursively(false);
+        HealthGUI.SetActiveRecursively(false);
 
-        GameOverGUI.transform.FindChild("FinalScore").GetComponent<GUIText>().text = GameManager.PlayerScore.ToString();
-        GameOverGUI.transform.FindChild("EnemiesKilled").GetComponent<GUIText>().text = GameManager.TotalKill.ToString();
+        GameOverGUI.transform.Find("FinalScore").GetComponent<Text>().text = GameManager.PlayerScore.ToString();
+        GameOverGUI.transform.Find("EnemiesKilled").GetComponent<Text>().text = GameManager.TotalKill.ToString();
         int Accuracy = (int)Mathf.Floor((GameManager.TotalKill/GameManager.TotalEnemies)*100);       
-        GameOverGUI.transform.FindChild("Accuracy").GetComponent<GUIText>().text = Accuracy.ToString();
+        GameOverGUI.transform.Find("Accuracy").GetComponent<Text>().text = Accuracy.ToString();
        
     }
     
@@ -313,8 +430,8 @@ public class GameController : MonoBehaviour
         GameManager.TotalKill = 0;
         GameManager.PlayerHealth = 100;
         // turn back score and health gui
-        ScoreGUI.SetActive(true);
-        HealthGUI.SetActive(true);
+        ScoreGUI.SetActiveRecursively(true);
+        HealthGUI.SetActiveRecursively(true);
         // reset GameManager isDead
         GameManager.isDead = false;
         // reset GameManage.CurrentLevel
@@ -328,7 +445,7 @@ public class GameController : MonoBehaviour
         }
 
         trPlayer.position = playerDefaultPos;
-        Player.SetActive(true);
-        Player.transform.FindChild("Idle").gameObject.SetActive(false);
+        Player.SetActiveRecursively(true);
+        Player.transform.Find("Idle").gameObject.SetActiveRecursively(false);
     }
 }

@@ -26,7 +26,7 @@ public class Banzai : MonoBehaviour {
         target = GameObject.FindWithTag("Player").transform;
     }
 
-    void FixedUpdate()
+    void Update()
     {
 
         if (!locked)
